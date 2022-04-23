@@ -2,6 +2,7 @@ package niss.emsi.patientsmvc;
 
 import niss.emsi.patientsmvc.entities.Patient;
 import niss.emsi.patientsmvc.repositories.PatientRepository;
+import niss.emsi.patientsmvc.sec.service.SecurityService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -32,5 +33,20 @@ public class PatientsMvcApplication {
                 System.out.println(p.getNom());
             });
         };
+    }
+
+    @Bean
+    CommandLineRunner saveUsers( SecurityService securityService) {
+        return args -> {
+            securityService.saveNewUser(  "Nessrin",  "1234",  "1234");
+            securityService.saveNewUser(  "Yassmine",  "1234",  "1234");
+            securityService.saveNewUser(  "mohamed",  "1234",  "1234");
+            securityService.saveNewRole(  "USER",  "");
+            securityService.saveNewRole( "ADMIN", "");
+
+
+
+        };
+
     }
 }
