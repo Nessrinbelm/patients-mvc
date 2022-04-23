@@ -34,7 +34,7 @@ public class PatientsMvcApplication {
             });
         };
     }
-
+    // comnt
     @Bean
     CommandLineRunner saveUsers( SecurityService securityService) {
         return args -> {
