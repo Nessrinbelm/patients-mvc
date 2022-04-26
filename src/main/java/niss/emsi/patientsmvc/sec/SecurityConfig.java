@@ -1,5 +1,6 @@
 package niss.emsi.patientsmvc.sec;
 
+import niss.emsi.patientsmvc.sec.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,9 +23,13 @@ import javax.sql.DataSource;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        PasswordEncoder passwordEncoder=passwordEncoder();
+
        /* String encodedPWD=passwordEncoder.encode(  "1234");
         System.out.println(encodedPWD);
         //Les utilisateurs
@@ -34,19 +39,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .withUser("admin").password(passwordEncoder.encode("1111")).roles("USER", "ADMIN")
                 .and()
                 .withUser("user2").password(passwordEncoder.encode("2345")).roles("USER");*/
-       /* auth.jdbcAuthentication()
+      /* auth.jdbcAuthentication()
                 .dataSource(dataSource)
                 .usersByUsernameQuery("select username as principal, password as credentials, active from users where username=?")
                 .authoritiesByUsernameQuery ("select username as principal, role as role from users_roles where username=?")
                 .rolePrefix("ROLE_")
-                .passwordEncoder (passwordEncoder); */
+                .passwordEncoder (passwordEncoder);
+       */
+       //Quand l'utilisateur saisit son username et mdps Spring fait appel à cet Objet -> LoadUserbyUsername
+        auth.userDetailsService(userDetailsService);
 
-        auth.userDetailsService(new UserDetailsService() {
-            @Override
-            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                return null;
-            }
-        });
+
+
 
 
     }
@@ -60,9 +64,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers( "/").permitAll();
 
         //Si il n est pas admin il ne pourra pas y acceder aà delete et les autres
-        http.authorizeRequests().antMatchers(  "/admin/**" ). hasRole("ADMIN");
+        http.authorizeRequests().antMatchers(  "/admin/**" ). hasAuthority("ADMIN");
 
-        http.authorizeRequests().antMatchers( "/user/**").hasRole("USER");
+        http.authorizeRequests().antMatchers( "/user/**").hasAuthority("USER");
         http.authorizeRequests().antMatchers(  "/webjars/**").permitAll();
         //Chaque request necessite l'authentification
          http.authorizeRequests().anyRequest().authenticated();
@@ -81,9 +85,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
-    //Bean signife au demarrage creer un objet de type passwordencoder
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 }
