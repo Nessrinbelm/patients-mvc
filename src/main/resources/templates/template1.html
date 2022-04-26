@@ -19,19 +19,28 @@
       <li class="nav-item">
         <a class="nav-link active" th:href="@{/user/index}">Home</a>
       </li>
+
       <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Medecins</a>
+        <ul class="dropdown-menu">
+          <li sec:authorize="hasAuthority('ADMIN')"><a class="dropdown-item" th:href="@{/admin/formMedecins}">Nouveau </a></li>
+          <li><a class="dropdown-item" th:href="@{/user/liste}">Chercher</a></li>
+        </ul>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
+
       </li>
+
       <li class="nav-item">
-        <a class="nav-link disabled" href="#">Disabled</a>
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Consultations</a>
+        <ul class="dropdown-menu">
+          <li sec:authorize="hasAuthority('ADMIN')"><a class="dropdown-item" th:href="@{/admin/formConsultations}">Nouvelle </a></li>
+          <li><a class="dropdown-item" th:href="@{/user/listConsultations}">Chercher</a></li>
+        </ul>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Patients</a>
         <ul class="dropdown-menu">
-          <li sec:authorize="hasRole('ADMIN')"><a class="dropdown-item" th:href="@{/admin/formPatients}">Nouveau </a></li>
+          <li sec:authorize="hasAuthority('ADMIN')"><a class="dropdown-item" th:href="@{/admin/formPatients}">Nouveau </a></li>
           <li><a class="dropdown-item" th:href="@{/user/index}">Chercher</a></li>
         </ul>
       </li>

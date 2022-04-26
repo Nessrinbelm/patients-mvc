@@ -5,7 +5,7 @@
 >
 <head>
     <meta charset="UTF-8">
-    <title>Form Patients</title>
+    <title>Form Consultations</title>
     <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
 
     <style>
@@ -104,31 +104,28 @@
     <div class="form">
         <a href="https://ibb.co/S58BStx"><img src="https://i.ibb.co/S58BStx/ddo-removebg-preview.png" alt="ddo-removebg-preview"  /></a>
         <br/>
-        <h1>Ajouter Un Patient</h1>
-    <form method="post" th:action="@{/admin/save}">
+        <h1>Ajouter Une Consultation</h1>
+    <form method="post" th:action="@{/admin/saveCons}">
         <div>
-            <label for="nom">Nom</label>
-            <input id="nom" class="form-control" type="text" name="nom" th:value="${patient.nom}">
-            <span class="text-danger" th:errors="${patient.nom}"></span>
+            <label for="nom">Nom Patient</label>
+            <input id="nom" class="form-control" type="text" name="nom" th:value="${consultation.nom}">
+            <span class="text-danger" th:errors="${consultation.nom}"></span>
         </div>
 
         <div>
-            <label>Date Naissance</label>
-            <input class="form-control" type="date" name="dateNaissance" th:value="${patient.dateNaissance}">
-            <span class="text-danger" th:errors="${patient.dateNaissance}"></span>
+            <label>Date de Consultation</label>
+            <input class="form-control" type="date" name="dateCons" th:value="${consultation.dateCons}">
+            <span class="text-danger" th:errors="${consultation.dateCons}"></span>
         </div>
 
         <div>
-            <label>Malade</label>
-            <input type="checkbox" name="malade" th:checked="${patient.malade}">
-            <span class="text-danger" th:errors="${patient.malade}"></span>
+            <label for="nomDoc">Nom Docteur</label>
+            <input id="nomDoc" class="form-control" type="text" name="nomDoc" th:value="${consultation.nomDoc}">
+            <span class="text-danger" th:errors="${consultation.nomDoc}"></span>
         </div>
 
-        <div>
-            <label>Score</label>
-            <input class="form-control" type="text" name="score" th:value="${patient.score}">
-            <span class="text-danger" th:errors="${patient.score}"></span>
-        </div>
+
+
 
         <button type="submit" class="btn btn-primary">Save</button>
 
